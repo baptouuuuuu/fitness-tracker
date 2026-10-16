@@ -14,7 +14,7 @@ export function LogForm({ entry, onSave, onCancel }: { entry?: LogEntry; onSave:
   const [reps, setReps] = useState(str(entry?.reps));
 
   return (
-    <View style={{ marginTop: 10 }}>
+    <View style={{ marginTop: 6 }}>
       <View style={row}>
         <View style={{ flex: 1, minWidth: 90 }}>
           <Field label="Durée (min)" keyboardType="numeric" value={duration} onChangeText={setDuration} placeholder="10" />
@@ -26,7 +26,7 @@ export function LogForm({ entry, onSave, onCancel }: { entry?: LogEntry; onSave:
           <Field label="Répétitions" keyboardType="numeric" value={reps} onChangeText={setReps} placeholder="12" />
         </View>
       </View>
-      <Field label="Commentaire" value={note} onChangeText={setNote} placeholder="Ressenti, charge, remarque…" multiline />
+      <Field label="Commentaire" value={note} onChangeText={setNote} placeholder="Ressenti, charge, remarque…" />
       <View style={row}>
         <Button
           label="Enregistrer (fait)"

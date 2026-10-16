@@ -37,7 +37,7 @@ export default function TodayScreen() {
           </View>
           <Button label="▶" kind="secondary" disabled={date >= today} onPress={() => setDate(addDays(date, 1))} />
         </View>
-        <View style={[row, { justifyContent: 'center', marginTop: 10 }]}>
+        <View style={[row, { justifyContent: 'center', marginTop: 6 }]}>
           <Text style={{ color: colors.text }}>✅ {doneCount}/{active.length} fait(s)</Text>
           <Text style={{ color: colors.text }}>🔥 Série : {streak} jour(s)</Text>
         </View>

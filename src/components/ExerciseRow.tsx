@@ -19,7 +19,7 @@ export function ExerciseLogRow({ exercise, date, reasons }: { exercise: Exercise
     <Card style={done ? { backgroundColor: colors.successLight, borderColor: colors.success } : undefined}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
         <View style={{ flex: 1 }}>
-          <Link href={{ pathname: '/exercise/[id]', params: { id: exercise.id } }} style={{ fontSize: 16, fontWeight: '600', color: colors.text }}>
+          <Link href={{ pathname: '/exercise/[id]', params: { id: exercise.id } }} style={{ fontSize: 15, fontWeight: '600', color: colors.text }}>
             {exercise.name}
           </Link>
           {reasons && reasons.length > 0 && (
@@ -32,7 +32,7 @@ export function ExerciseLogRow({ exercise, date, reasons }: { exercise: Exercise
           {done && !!details && <Text style={{ color: colors.muted, marginTop: 4 }}>{details}</Text>}
           {!!entry?.note && <Text style={{ color: colors.muted, marginTop: 2, fontStyle: 'italic' }}>« {entry.note} »</Text>}
         </View>
-        <View style={{ gap: 6 }}>
+        <View style={{ gap: 4, flexDirection: 'row', alignItems: 'center' }}>
           <Button
             testID={`toggle-${exercise.id}`}
             label={done ? '✓ Fait' : 'Fait'}

@@ -85,7 +85,7 @@ export function Tag({ label }: { label: string }) {
 
 export function Field({ label, ...props }: TextInputProps & { label: string }) {
   return (
-    <View style={{ marginBottom: 10 }}>
+    <View style={{ marginBottom: 6 }}>
       <Text style={styles.label}>{label}</Text>
       <TextInput placeholderTextColor={colors.muted} {...props} style={[styles.input, props.style]} />
     </View>
@@ -122,17 +122,17 @@ export const row: ViewStyle = { flexDirection: 'row', flexWrap: 'wrap', gap: 8, 
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.bg },
-  screenContent: { padding: 16, paddingBottom: 48 },
-  inner: { width: '100%', maxWidth: 720, alignSelf: 'center', gap: 12 },
-  card: { backgroundColor: colors.card, borderRadius: 14, padding: 14, borderWidth: 1, borderColor: colors.border },
-  title: { fontSize: 22, fontWeight: '700', color: colors.text },
+  screenContent: { padding: 10, paddingBottom: 24 },
+  inner: { width: '100%', maxWidth: 720, alignSelf: 'center', gap: 6 },
+  card: { backgroundColor: colors.card, borderRadius: 12, padding: 8, borderWidth: 1, borderColor: colors.border },
+  title: { fontSize: 18, fontWeight: '700', color: colors.text },
   muted: { color: colors.muted, fontSize: 14 },
-  button: { paddingVertical: 10, paddingHorizontal: 14, borderRadius: 10, alignItems: 'center' },
+  button: { paddingVertical: 6, paddingHorizontal: 10, borderRadius: 10, alignItems: 'center' },
   buttonText: { fontWeight: '600', fontSize: 14 },
   chip: { paddingVertical: 6, paddingHorizontal: 12, borderRadius: 999, borderWidth: 1, borderColor: colors.border, backgroundColor: '#fff' },
   chipText: { color: colors.text, fontSize: 13 },
   tag: { backgroundColor: colors.warn, borderRadius: 6, paddingHorizontal: 8, paddingVertical: 3 },
   tagText: { fontSize: 12, color: '#7A5200' },
-  label: { fontSize: 13, color: colors.muted, marginBottom: 4 },
-  input: { borderWidth: 1, borderColor: colors.border, borderRadius: 10, padding: 10, fontSize: 15, color: colors.text, backgroundColor: '#fff' },
+  label: { fontSize: 12, color: colors.muted, marginBottom: 2 },
+  input: { borderWidth: 1, borderColor: colors.border, borderRadius: 10, padding: 6, fontSize: 14, color: colors.text, backgroundColor: '#fff' },
 });
