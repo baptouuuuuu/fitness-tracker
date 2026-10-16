@@ -28,6 +28,9 @@
     "plugins": [
       "expo-router"
     ],
-    "scheme": "fitnesstracker"
+    "scheme": "fitnesstracker",
+    "experiments": {
+      "baseUrl": "/fitness-tracker"
+    }
   }
 }

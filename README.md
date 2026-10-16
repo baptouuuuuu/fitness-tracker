@@ -66,3 +66,8 @@ Pour chaque exercice actif non encore fait le jour concerné, un score de 0 à 1
 | Équilibre des catégories | 10 % | catégories les moins pratiquées sur 14 jours |
 
 Les égalités sont départagées par nom (résultat déterministe). Les deux raisons principales sont affichées sous forme d'étiquettes.
+
+## Déploiement (GitHub Pages)
+
+Le workflow `.github/workflows/deploy-web.yml` construit et publie la version web à chaque push sur `main` (ou manuellement via *Actions → Deploy web → Run workflow*).
+Activation unique : **Settings → Pages → Source : GitHub Actions**. L'app est ensuite disponible sur `https://baptouuuuuu.github.io/fitness-tracker/`.
