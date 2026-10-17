@@ -25,7 +25,7 @@ describe('UI smoke test', () => {
     await fireEvent.changeText(screen.getByTestId('exercise-name'), 'Squats');
     await fireEvent.press(screen.getByTestId('exercise-submit'));
 
-    await waitFor(() => expect(screen.getByText('Recommandés')).toBeTruthy());
+    await waitFor(() => expect(screen.getByText("Conseillés aujourd'hui")).toBeTruthy());
     expect(screen.getByText('Jamais fait')).toBeTruthy();
     expect(screen.getByText('✅ 0/1 fait(s)')).toBeTruthy();
 
