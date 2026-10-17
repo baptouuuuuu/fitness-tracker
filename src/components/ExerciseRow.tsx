@@ -1,6 +1,7 @@
 import { Link } from 'expo-router';
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
+import { lastDoneLabel } from '../domain/recommendations';
 import { DateKey, Exercise, logKey } from '../domain/types';
 import { useApp } from '../store/AppContext';
 import { LogForm } from './LogForm';
@@ -11,6 +12,8 @@ export function ExerciseLogRow({ exercise, date, reasons }: { exercise: Exercise
   const [open, setOpen] = useState(false);
   const entry = state.logs[logKey(exercise.id, date)];
   const done = entry?.done === true;
+  const since = lastDoneLabel(state, exercise.id, date);
+  const sinceColor = since.days === null || since.days >= 7 ? colors.danger : since.days >= 3 ? colors.primary : colors.muted;
   const details = [entry?.durationMin && `${entry.durationMin} min`, entry?.sets && `${entry.sets} séries`, entry?.reps && `${entry.reps} rép.`]
     .filter(Boolean)
     .join(' · ');
@@ -22,6 +25,7 @@ export function ExerciseLogRow({ exercise, date, reasons }: { exercise: Exercise
           <Link href={{ pathname: '/exercise/[id]', params: { id: exercise.id } }} style={{ fontSize: 15, fontWeight: '600', color: colors.text }}>
             {exercise.name}
           </Link>
+          {!done && <Text style={{ color: sinceColor, fontSize: 12, marginTop: 2 }}>🕒 {since.label}</Text>}
           {reasons && reasons.length > 0 && (
             <View style={[row, { marginTop: 4 }]}>
               {reasons.map((r) => (

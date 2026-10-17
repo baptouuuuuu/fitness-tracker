@@ -2,14 +2,15 @@ import { Link, router, useLocalSearchParams } from 'expo-router';
 import React, { useMemo } from 'react';
 import { Text, View } from 'react-native';
 import { ExerciseLogRow } from '../../components/ExerciseRow';
-import { Button, Card, EmptyState, Muted, Screen, Title, colors, row } from '../../components/ui';
+import { Button, Card, EmptyState, Muted, Screen, Tag, Title, colors, row } from '../../components/ui';
 import { addDays, isDateKey, longDateLabel, todayKey } from '../../domain/dates';
-import { recommend } from '../../domain/recommendations';
+import { recommend, suggestExtras } from '../../domain/recommendations';
 import { computeStreaks, doneDates } from '../../domain/stats';
+import { categoryLabel } from '../../domain/templates';
 import { useApp } from '../../store/AppContext';
 
 export default function TodayScreen() {
-  const { state, ready } = useApp();
+  const { state, ready, addExercise } = useApp();
   const params = useLocalSearchParams<{ date?: string }>();
   const today = todayKey();
   const date = isDateKey(params.date) && params.date <= today ? params.date : today;
@@ -19,6 +20,7 @@ export default function TodayScreen() {
 
   const active = state.exercises.filter((e) => !e.archived);
   const recs = useMemo(() => recommend(state, date, 5), [state, date]);
+  const extras = useMemo(() => suggestExtras(state, date, 3), [state, date]);
   const recIds = new Set(recs.map((r) => r.exercise.id));
   const others = active.filter((e) => !recIds.has(e.id));
   const doneCount = active.filter((e) => state.logs[`${date}|${e.id}`]?.done).length;
@@ -51,7 +53,8 @@ export default function TodayScreen() {
         />
       ) : (
         <>
-          <Title>Recommandés</Title>
+          <Title>Conseillés aujourd'hui</Title>
+          <Muted>Pas besoin de tout faire : privilégiez ceux que vous avez le moins faits récemment.</Muted>
           {recs.length === 0 ? (
             <Card><Text style={{ color: colors.success, fontWeight: '600' }}>🎉 Tout est fait pour ce jour, bravo !</Text></Card>
           ) : (
@@ -63,6 +66,23 @@ export default function TodayScreen() {
               {others.map((e) => <ExerciseLogRow key={e.id} exercise={e} date={date} />)}
             </>
           )}
+        </>
+      )}
+
+      {extras.length > 0 && (
+        <>
+          <Title>Pour compléter l'entraînement</Title>
+          {extras.map((t) => (
+            <Card key={t.id}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+                <View style={{ flex: 1 }}>
+                  <Text style={{ fontSize: 15, fontWeight: '600', color: colors.text }}>{t.name}</Text>
+                  <View style={[row, { marginTop: 4 }]}><Tag label={categoryLabel(t.category)} /></View>
+                </View>
+                <Button label="+ Ajouter" kind="secondary" onPress={() => addExercise({ name: t.name, category: t.category })} />
+              </View>
+            </Card>
+          ))}
         </>
       )}
     </Screen>

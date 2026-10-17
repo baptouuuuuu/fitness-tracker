@@ -71,3 +71,20 @@ describe('recommendation scoring', () => {
     expect(recommend(build([]), TODAY)).toEqual([]);
   });
 });
+
+import { lastDoneLabel, suggestExtras } from '../src/domain/recommendations';
+
+describe('last done label and extras', () => {
+  it('labels time since last done', () => {
+    const s = build([{ id: 'a', name: 'A' }, { id: 'b', name: 'B' }], { done: [['a', '2025-03-05']] });
+    expect(lastDoneLabel(s, 'a', TODAY)).toEqual({ label: 'Pas fait depuis 7 jours', days: 7 });
+    expect(lastDoneLabel(s, 'b', TODAY).days).toBeNull();
+  });
+
+  it('suggests templates not already owned', () => {
+    const s = build([{ id: 'a', name: 'Pompes' }]);
+    const extras = suggestExtras(s, TODAY, 3);
+    expect(extras).toHaveLength(3);
+    expect(extras.some((t) => t.name === 'Pompes')).toBe(false);
+  });
+});

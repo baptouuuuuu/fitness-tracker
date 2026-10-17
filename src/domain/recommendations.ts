@@ -1,5 +1,6 @@
 import { diffDays, addDays } from './dates';
 import { lastDoneDate, doneLogs } from './stats';
+import { EXERCISE_TEMPLATES, ExerciseTemplate } from './templates';
 import { AppState, DateKey, Exercise } from './types';
 
 export const RECENCY_CAP_DAYS = 14;
@@ -115,4 +116,38 @@ export function recommend(state: AppState, today: DateKey, limit = 5): Recommend
     .map((e) => scoreExercise(state, e, today, counts))
     .sort((a, b) => b.score - a.score || a.exercise.name.localeCompare(b.exercise.name))
     .slice(0, limit);
+}
+
+/** Human-readable label for how long ago an exercise was last done. */
+export function lastDoneLabel(state: AppState, exerciseId: string, today: DateKey): { label: string; days: number | null } {
+  const last = lastDoneDate(state, exerciseId, today);
+  if (last === null) return { label: 'Jamais fait', days: null };
+  const days = diffDays(last, today);
+  if (days <= 0) return { label: "Fait aujourd'hui", days: 0 };
+  if (days === 1) return { label: 'Fait hier', days };
+  return { label: `Pas fait depuis ${days} jours`, days };
+}
+
+/**
+ * Suggest template exercises the user does not have yet, favouring the
+ * categories practised least recently so the training stays complete.
+ */
+export function suggestExtras(state: AppState, today: DateKey, limit = 3): ExerciseTemplate[] {
+  const counts = categoryCounts(state, today);
+  const owned = new Set(state.exercises.filter((e) => !e.archived).map((e) => e.name.toLowerCase()));
+  const candidates = EXERCISE_TEMPLATES.filter((t) => !owned.has(t.name.toLowerCase()));
+  const picked: ExerciseTemplate[] = [];
+  const used = new Map<string, number>();
+  while (picked.length < limit && picked.length < candidates.length) {
+    const next = candidates
+      .filter((t) => !picked.includes(t))
+      .sort((a, b) => {
+        const ca = (counts.get(a.category) ?? 0) + (used.get(a.category) ?? 0);
+        const cb = (counts.get(b.category) ?? 0) + (used.get(b.category) ?? 0);
+        return ca - cb;
+      })[0];
+    picked.push(next);
+    used.set(next.category, (used.get(next.category) ?? 0) + 1);
+  }
+  return picked;
 }
