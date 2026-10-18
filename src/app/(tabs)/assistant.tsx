@@ -43,7 +43,12 @@ export default function AssistantScreen() {
       setMessages((current) => [...current, { role: 'assistant', text: command.reply }]);
       if (command.type !== 'clarification') setPendingCommand(command);
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : 'Impossible de contacter Mammouth AI.');
+      const message = cause instanceof Error ? cause.message : '';
+      setError(
+        /network request failed|failed to fetch/i.test(message)
+          ? 'Impossible de contacter Mammouth AI. Sur le web, vérifie que son API autorise les requêtes depuis ce navigateur (CORS).'
+          : message || 'Impossible de contacter Mammouth AI.',
+      );
     } finally {
       setBusy(false);
     }
