@@ -39,20 +39,26 @@ export function parseAssistantCommand(message: string): AssistantCommand | null 
 
   if (!name && objective) {
     name = text.replace(
-      /^(?:(?:bonjour|salut)[, ]+)?(?:(?:je veux|je voudrais|j'aimerais|je souhaite|aide-moi a|peux-tu|pourrais-tu)\s+)?(?:(?:creer|ajouter|definir)\s+)?/i,
+      /^(?:(?:bonjour|salut)[, ]+)?(?:(?:je veux|je voudrais|j'aimerais|je souhaite|aide-moi a|peux-tu|pourrais-tu)\s+)?(?:(?:creer|créer|crée|ajouter|ajoute|definir|définir)\s+)?/i,
       '',
     );
     name = name.replace(/^un objectif\s+(?:de|pour)\s+/i, '');
   } else if (!name && !objective) {
     name = text.replace(
-      /^(?:(?:bonjour|salut)[, ]+)?(?:(?:je veux|je voudrais|j'aimerais|je souhaite)\s+)?(?:(?:creer|ajouter|faire)\s+)?/i,
+      /^(?:(?:bonjour|salut)[, ]+)?(?:(?:je veux|je voudrais|j'aimerais|je souhaite)\s+)?(?:(?:creer|créer|crée|ajouter|ajoute|faire)\s+)?/i,
       '',
     );
     name = name.replace(/^(?:un|une|des)\s+(?:nouvel?\s+)?(?:exercice|activite|mouvement)\s+(?:de|pour)\s+/i, '');
   }
 
   const cleaned = cleanName(name ?? '');
-  if (cleaned.length < 2 || /^(?:un|une|des|de|du|pour)$/i.test(cleaned)) return null;
+  if (
+    cleaned.length < 2 ||
+    /^(?:un|une|des|de|du|pour)$/i.test(cleaned) ||
+    /^(?:(?:un|une|des)\s+)?(?:(?:nouvel?|nouvelle)\s+)?(?:exercice|activite|mouvement|seance|objectif)$/i.test(simplify(cleaned))
+  ) {
+    return null;
+  }
 
   return objective
     ? { type, name: cleaned, weight: /priorite haute|important/i.test(simplify(text)) ? 3 : 2 }
