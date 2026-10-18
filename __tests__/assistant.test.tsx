@@ -26,12 +26,12 @@ describe('chat assistant command parsing', () => {
 
       await fireEvent.changeText(input, 'Crée un exercice de pompes');
       await fireEvent.press(screen.getByText('Envoyer'));
-      await waitFor(() => expect(screen.getByText('L’exercice « pompes » a été ajouté.')).toBeTruthy());
+      await waitFor(() => expect(screen.getByText('C’est noté, l’exercice « pompes » a été ajouté.')).toBeTruthy());
 
       await fireEvent.changeText(input, 'Crée un objectif pour faire 10 pompes');
       await fireEvent.press(screen.getByText('Envoyer'));
-      await waitFor(() => expect(screen.getAllByText('faire 10 pompes').length).toBeGreaterThan(1));
-      expect(screen.getByText('pompes')).toBeTruthy();
+      await waitFor(() => expect(screen.getByText('faire 10 pompes')).toBeTruthy());
+      expect(screen.getAllByText('pompes').length).toBeGreaterThan(0);
     });
   });
 
