@@ -36,7 +36,7 @@ describe('Mammouth assistant response validation', () => {
   });
 
   it('calls Mammouth with the supplied key and parses its chat completion', async () => {
-    const fetchMock = jest.spyOn(global, 'fetch').mockResolvedValue({
+    const fetchMock = jest.spyOn(globalThis, 'fetch').mockResolvedValue({
       ok: true,
       json: async () => ({
         choices: [{
@@ -62,7 +62,7 @@ describe('Mammouth assistant response validation', () => {
   });
 
   it('provides a useful error for rejected API keys', async () => {
-    const fetchMock = jest.spyOn(global, 'fetch').mockResolvedValue({ ok: false, status: 401 } as Response);
+    const fetchMock = jest.spyOn(globalThis, 'fetch').mockResolvedValue({ ok: false, status: 401 } as Response);
     await expect(requestAssistantCommand('not-a-real-key', 'Créer un exercice', [])).rejects.toThrow(
       'Clé API Mammouth invalide',
     );

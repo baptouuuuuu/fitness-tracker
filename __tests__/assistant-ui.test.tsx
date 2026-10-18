@@ -7,7 +7,7 @@ describe('Mammouth assistant UI', () => {
   afterEach(() => jest.restoreAllMocks());
 
   it('asks for an API key and requires confirmation before creating an exercise', async () => {
-    const fetchMock = jest.spyOn(global, 'fetch').mockResolvedValue({
+    const fetchMock = jest.spyOn(globalThis, 'fetch').mockResolvedValue({
       ok: true,
       json: async () => ({
         choices: [{

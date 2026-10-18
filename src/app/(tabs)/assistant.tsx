@@ -55,7 +55,7 @@ export default function AssistantScreen() {
   };
 
   const confirmCommand = () => {
-    if (!pendingCommand) return;
+    if (!pendingCommand || pendingCommand.type === 'clarification') return;
     if (pendingCommand.type === 'exercise') {
       const existing = state.exercises.find(
         (exercise) => exercise.name.toLocaleLowerCase() === pendingCommand.name.toLocaleLowerCase(),
@@ -145,7 +145,7 @@ export default function AssistantScreen() {
           {busy && <Muted>L’IA réfléchit…</Muted>}
         </ScrollView>
       </Card>
-      {!!pendingCommand && (
+      {!!pendingCommand && pendingCommand.type !== 'clarification' && (
         <Card>
           <Title>Confirmer la création</Title>
           <Muted>
@@ -173,6 +173,7 @@ export default function AssistantScreen() {
           placeholder="Ex. : Je veux courir 5 km"
           placeholderTextColor={colors.muted}
           returnKeyType="send"
+          maxLength={1000}
           editable={!busy}
           style={{
             borderWidth: 1,

@@ -42,6 +42,9 @@ export function parseAssistantResponse(content: string, exercises: AssistantExer
   const reply = typeof result.reply === 'string' ? result.reply.trim().slice(0, 400) : '';
   if (!reply) throw new Error('La réponse de l’IA ne contient pas de message valide.');
   if (result.type === 'clarification') return { type: 'clarification', reply };
+  if (result.type !== 'exercise' && result.type !== 'objective') {
+    throw new Error('L’IA a renvoyé un type de création non pris en charge.');
+  }
 
   const name = typeof result.name === 'string' ? result.name.trim().replace(/\s+/g, ' ') : '';
   if (!name || name.length > 100) throw new Error('La réponse de l’IA ne contient pas de nom valide.');
@@ -72,6 +75,11 @@ export async function requestAssistantCommand(
   request: string,
   exercises: AssistantExercise[],
 ): Promise<AssistantCommand> {
+  if (!apiKey.trim()) throw new Error('Ajoute ta clé API Mammouth pour discuter avec l’assistant.');
+  if (!request.trim() || request.length > 1000) {
+    throw new Error('Le message doit contenir entre 1 et 1000 caractères.');
+  }
+
   const response = await fetch(API_URL, {
     method: 'POST',
     headers: {
