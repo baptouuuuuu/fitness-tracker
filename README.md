@@ -9,7 +9,8 @@ Application de suivi de régularité sportive (musculation, étirements, mobilit
 - **Suivi quotidien** : fait / pas fait par jour, avec commentaire, durée, séries et répétitions. Navigation vers les jours passés.
 - **Recommandations** : l'écran « Aujourd'hui » affiche les 5 exercices les plus utiles avec la raison.
 - **Statistiques** : régularité hebdomadaire et mensuelle, séries (streaks), calendrier, progression par exercice.
-- **Hors-ligne** : toutes les données sont stockées localement (aucun service externe).
+- **Assistant IA** : Mammouth AI peut proposer des exercices et objectifs à partir d'une phrase, avec confirmation avant création.
+- **Hors-ligne** : les données de suivi sont stockées localement. L'assistant IA est facultatif et nécessite une connexion.
 
 ## Prérequis
 
@@ -37,13 +38,19 @@ npm run build:web  # export web statique dans dist/
 
 ```
 src/
-  app/          Écrans (Expo Router) : (tabs)/index, exercises, objectives, history, exercise/[id]
+  app/          Écrans (Expo Router) : (tabs)/index, exercises, objectives, assistant, history, exercise/[id]
   components/   Composants UI
   domain/       Logique pure et testée : types, dates, stats, recommandations, transformations d'état
   storage/      Persistance locale versionnée + migrations
   store/        Contexte React (état + sauvegarde)
 __tests__/      Tests Jest
 ```
+
+### Assistant IA Mammouth
+
+Dans l'onglet « Assistant IA », colle une clé API créée dans [les paramètres API de Mammouth](https://mammouth.ai/app/account/settings/api), puis décris l'exercice ou l'objectif souhaité. L'application envoie le message et les noms de tes exercices actifs à `https://api.mammouth.ai/v1/chat/completions`, avec un préprompt demandant une réponse JSON structurée. La proposition est validée par l'application et doit être confirmée avant la création.
+
+La clé est conservée uniquement dans la mémoire de l'écran et n'est pas enregistrée dans le stockage local. Elle devra être saisie à nouveau après avoir quitté/rechargé l'application. L'API reçoit le message et les noms d'exercices; évite d'y inclure des informations sensibles. L'utilisation de l'API peut consommer les crédits de ton compte Mammouth. Dans un navigateur, les appels directs ne fonctionneront que si l'API autorise l'origine de l'application (CORS); dans le cas contraire, il faudra utiliser un backend proxy.
 
 ### Persistance
 
