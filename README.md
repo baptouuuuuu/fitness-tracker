@@ -9,6 +9,7 @@ Application de suivi de régularité sportive (musculation, étirements, mobilit
 - **Suivi quotidien** : fait / pas fait par jour, avec commentaire, durée, séries et répétitions. Navigation vers les jours passés.
 - **Recommandations** : l'écran « Aujourd'hui » affiche les 5 exercices les plus utiles avec la raison.
 - **Statistiques** : régularité hebdomadaire et mensuelle, séries (streaks), calendrier, progression par exercice.
+- **Assistant de création** : une conversation en français permet d'ajouter des exercices et objectifs à partir d'une phrase.
 - **Hors-ligne** : toutes les données sont stockées localement (aucun service externe).
 
 ## Prérequis
@@ -37,13 +38,15 @@ npm run build:web  # export web statique dans dist/
 
 ```
 src/
-  app/          Écrans (Expo Router) : (tabs)/index, exercises, objectives, history, exercise/[id]
+  app/          Écrans (Expo Router) : (tabs)/index, exercises, objectives, assistant, history, exercise/[id]
   components/   Composants UI
   domain/       Logique pure et testée : types, dates, stats, recommandations, transformations d'état
   storage/      Persistance locale versionnée + migrations
   store/        Contexte React (état + sauvegarde)
 __tests__/      Tests Jest
 ```
+
+L'assistant interprète localement les demandes courantes de création (sans envoyer les messages à un service externe). Il comprend notamment les formulations « Crée un exercice de course à pied » et « Crée un objectif pour faire 10 pompes ».
 
 ### Persistance
 
