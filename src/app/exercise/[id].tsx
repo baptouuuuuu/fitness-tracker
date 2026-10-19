@@ -1,8 +1,9 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
-import React from 'react';
+import React, { useState } from 'react';
 import { Text } from 'react-native';
+import { LogForm } from '../../components/LogForm';
 import { ExerciseMedia } from '../../components/ExerciseMedia';
-import { Bars, Card, EmptyState, Muted, Screen, Tag, Title, row } from '../../components/ui';
+import { Bars, Button, Card, EmptyState, Muted, Screen, Tag, Title, row } from '../../components/ui';
 import { useTheme } from '../../components/ThemeContext';
 import { diffDays, todayKey } from '../../domain/dates';
 import { categoryLabel } from '../../domain/templates';
@@ -13,7 +14,8 @@ import { View } from 'react-native';
 
 export default function ExerciseDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { state, ready } = useApp();
+  const { state, ready, setLog } = useApp();
+  const [editing, setEditing] = useState<string | null>(null);
   const { colors } = useTheme();
   const exercise = state.exercises.find((e) => e.id === id);
   const today = todayKey();
@@ -64,13 +66,26 @@ export default function ExerciseDetail() {
       </Card>
       <Title>Journal</Title>
       {logs.length === 0 ? (
-        <EmptyState title="Aucune séance" text="Validez cet exercice depuis l'écran Aujourd'hui pour suivre votre progression." />
+        <EmptyState title="Aucune séance" text="Validez-le depuis Aujourd'hui ✅" />
       ) : (
         logs.slice(0, 30).map((l) => (
           <Card key={l.date}>
-            <Text style={{ fontWeight: '600', color: colors.text }}>{l.date}</Text>
-            <Muted>{[l.durationMin && `${l.durationMin} min`, l.sets && `${l.sets} séries`, l.reps && `${l.reps} rép.`].filter(Boolean).join(' · ') || 'Fait'}</Muted>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Text style={{ fontWeight: '600', color: colors.text }}>✅ {l.date}</Text>
+              <Button label={editing === l.date ? '✖' : '✏️'} kind="secondary" onPress={() => setEditing(editing === l.date ? null : l.date)} />
+            </View>
+            <Muted>{[l.durationMin && `${l.durationMin} min`, l.sets && `${l.sets} séries`, l.reps && `${l.reps} rép.`].filter(Boolean).join(' · ')}</Muted>
             {!!l.note && <Text style={{ fontStyle: 'italic', color: colors.muted }}>« {l.note} »</Text>}
+            {editing === l.date && (
+              <LogForm
+                entry={l}
+                onCancel={() => setEditing(null)}
+                onSave={(input) => {
+                  setLog(exercise.id, l.date, input);
+                  setEditing(null);
+                }}
+              />
+            )}
           </Card>
         ))
       )}

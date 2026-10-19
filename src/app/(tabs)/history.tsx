@@ -1,6 +1,8 @@
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { BodyFigure } from '../../components/BodyFigure';
+import { musclesForExercise } from '../../domain/media';
 import { Bars, Button, Card, EmptyState, Muted, Screen, Title, row } from '../../components/ui';
 import { useTheme } from '../../components/ThemeContext';
 import { addDays, addMonths, daysInMonth, longDateLabel, monthLabel, startOfMonth, todayKey } from '../../domain/dates';
@@ -32,6 +34,10 @@ export default function HistoryScreen() {
   const thisWeek = weeks[weeks.length - 1];
   const monthStat = periodStats(state, month, monthEnd, today);
   const dayLogs = selected ? Object.values(state.logs).filter((l) => l.date === selected && l.done) : [];
+  const dayMuscles = dayLogs.flatMap((l) => {
+    const ex = state.exercises.find((e) => e.id === l.exerciseId);
+    return ex ? musclesForExercise(ex) : [];
+  });
   const nameOf = (id: string) => state.exercises.find((e) => e.id === id)?.name ?? '?';
 
   if (state.exercises.length === 0) {
@@ -94,6 +100,7 @@ export default function HistoryScreen() {
               ✓ {nameOf(l.exerciseId)}{l.durationMin ? ` · ${l.durationMin} min` : ''}{l.sets && l.reps ? ` · ${l.sets}×${l.reps}` : l.sets ? ` · ${l.sets} séries` : l.reps ? ` · ${l.reps} rép.` : ''}{l.note ? ` — ${l.note}` : ''}
             </Text>
           ))}
+          {dayMuscles.length > 0 && <View style={{ marginTop: 8 }}><BodyFigure muscles={dayMuscles} height={110} testID="day-body" /></View>}
           {selected <= today && (
             <View style={{ marginTop: 10 }}>
               <Button label="Modifier ce jour" kind="secondary" onPress={() => router.navigate({ pathname: '/', params: { date: selected } })} />

@@ -23,37 +23,68 @@
     "pushups": {
       "name": "Pompes",
       "category": "strength",
-      "muscle": "chest"
+      "muscle": "chest",
+      "muscles": [
+        "chest",
+        "shoulders",
+        "arms",
+        "core"
+      ]
     },
     "squats": {
       "name": "Squats",
       "category": "strength",
-      "muscle": "legs"
+      "muscle": "legs",
+      "muscles": [
+        "legs",
+        "glutes"
+      ]
     },
     "lunges": {
       "name": "Fentes",
       "category": "strength",
-      "muscle": "legs"
+      "muscle": "legs",
+      "muscles": [
+        "legs",
+        "glutes"
+      ]
     },
     "pullups": {
       "name": "Tractions",
       "category": "strength",
-      "muscle": "back"
+      "muscle": "back",
+      "muscles": [
+        "back",
+        "arms",
+        "shoulders"
+      ]
     },
     "plank": {
       "name": "Gainage (planche)",
       "category": "strength",
-      "muscle": "core"
+      "muscle": "core",
+      "muscles": [
+        "core",
+        "shoulders"
+      ]
     },
     "side-plank": {
       "name": "Gainage latéral",
       "category": "strength",
-      "muscle": "core"
+      "muscle": "core",
+      "muscles": [
+        "core",
+        "shoulders"
+      ]
     },
     "rows": {
       "name": "Rowing (dos)",
       "category": "strength",
-      "muscle": "back"
+      "muscle": "back",
+      "muscles": [
+        "back",
+        "arms"
+      ]
     },
     "hip-90-90": {
       "name": "Mobilité hanches 90/90",
@@ -68,17 +99,27 @@
     "thoracic": {
       "name": "Rotation thoracique",
       "category": "mobility",
-      "muscle": "back"
+      "muscle": "back",
+      "muscles": [
+        "back",
+        "core"
+      ]
     },
     "shoulder-circles": {
       "name": "Cercles d'épaules",
       "category": "mobility",
-      "muscle": "shoulders"
+      "muscle": "shoulders",
+      "muscles": [
+        "shoulders"
+      ]
     },
     "hamstring": {
       "name": "Étirement ischio-jambiers",
       "category": "stretching",
-      "muscle": "legs"
+      "muscle": "legs",
+      "muscles": [
+        "legs"
+      ]
     },
     "quad": {
       "name": "Étirement quadriceps",
@@ -88,57 +129,104 @@
     "hip-flexor": {
       "name": "Étirement psoas",
       "category": "stretching",
-      "muscle": "glutes"
+      "muscle": "glutes",
+      "muscles": [
+        "glutes",
+        "legs"
+      ]
     },
     "shoulder-stretch": {
       "name": "Étirement des épaules",
       "category": "stretching",
-      "muscle": "shoulders"
+      "muscle": "shoulders",
+      "muscles": [
+        "shoulders"
+      ]
     },
     "walk": {
       "name": "Marche rapide",
       "category": "cardio",
-      "muscle": "cardio"
+      "muscle": "cardio",
+      "muscles": [
+        "legs",
+        "calves",
+        "cardio"
+      ]
     },
     "jump-rope": {
       "name": "Corde à sauter",
       "category": "cardio",
-      "muscle": "cardio"
+      "muscle": "cardio",
+      "muscles": [
+        "calves",
+        "legs",
+        "shoulders",
+        "cardio"
+      ]
     },
     "cycling": {
       "name": "Vélo",
       "category": "cardio",
-      "muscle": "cardio"
+      "muscle": "cardio",
+      "muscles": [
+        "legs",
+        "calves",
+        "cardio"
+      ]
     },
     "glute-bridge": {
       "name": "Pont fessier",
       "category": "strength",
-      "muscle": "glutes"
+      "muscle": "glutes",
+      "muscles": [
+        "glutes",
+        "legs"
+      ]
     },
     "dips": {
       "name": "Dips (chaise)",
       "category": "strength",
-      "muscle": "arms"
+      "muscle": "arms",
+      "muscles": [
+        "arms",
+        "chest",
+        "shoulders"
+      ]
     },
     "deadlift": {
       "name": "Soulevé de terre roumain",
       "category": "strength",
-      "muscle": "back"
+      "muscle": "back",
+      "muscles": [
+        "back",
+        "glutes",
+        "legs"
+      ]
     },
     "calf-raise": {
       "name": "Montées sur pointes (mollets)",
       "category": "strength",
-      "muscle": "calves"
+      "muscle": "calves",
+      "muscles": [
+        "calves"
+      ]
     },
     "crunch": {
       "name": "Crunchs",
       "category": "strength",
-      "muscle": "core"
+      "muscle": "core",
+      "muscles": [
+        "core"
+      ]
     },
     "superman": {
       "name": "Superman (lombaires)",
       "category": "strength",
-      "muscle": "back"
+      "muscle": "back",
+      "muscles": [
+        "back",
+        "glutes"
+      ]
     },
     "burpees": {
       "name": "Burpees",
@@ -148,17 +236,30 @@
     "wall-angels": {
       "name": "Wall angels",
       "category": "mobility",
-      "muscle": "shoulders"
+      "muscle": "shoulders",
+      "muscles": [
+        "shoulders",
+        "back"
+      ]
     },
     "ankle": {
       "name": "Mobilité des chevilles",
       "category": "mobility",
-      "muscle": "calves"
+      "muscle": "calves",
+      "muscles": [
+        "calves"
+      ]
     },
     "worlds-greatest": {
       "name": "World’s greatest stretch",
       "category": "mobility",
-      "muscle": "full-body"
+      "muscle": "full-body",
+      "muscles": [
+        "legs",
+        "glutes",
+        "back",
+        "shoulders"
+      ]
     },
     "neck-mobility": {
       "name": "Mobilité des cervicales",
@@ -168,22 +269,35 @@
     "wrist": {
       "name": "Mobilité des poignets",
       "category": "mobility",
-      "muscle": "arms"
+      "muscle": "arms",
+      "muscles": [
+        "arms"
+      ]
     },
     "calf-stretch": {
       "name": "Étirement mollets",
       "category": "stretching",
-      "muscle": "calves"
+      "muscle": "calves",
+      "muscles": [
+        "calves"
+      ]
     },
     "chest-stretch": {
       "name": "Étirement des pectoraux",
       "category": "stretching",
-      "muscle": "chest"
+      "muscle": "chest",
+      "muscles": [
+        "chest",
+        "shoulders"
+      ]
     },
     "glute-stretch": {
       "name": "Étirement des fessiers (pigeon)",
       "category": "stretching",
-      "muscle": "glutes"
+      "muscle": "glutes",
+      "muscles": [
+        "glutes"
+      ]
     },
     "adductors": {
       "name": "Étirement des adducteurs",
@@ -193,12 +307,20 @@
     "child-pose": {
       "name": "Posture de l’enfant",
       "category": "stretching",
-      "muscle": "back"
+      "muscle": "back",
+      "muscles": [
+        "back",
+        "shoulders"
+      ]
     },
     "triceps-stretch": {
       "name": "Étirement des triceps",
       "category": "stretching",
-      "muscle": "arms"
+      "muscle": "arms",
+      "muscles": [
+        "arms",
+        "shoulders"
+      ]
     },
     "neck-stretch": {
       "name": "Étirement de la nuque",
@@ -213,17 +335,32 @@
     "jumping-jacks": {
       "name": "Jumping jacks",
       "category": "cardio",
-      "muscle": "cardio"
+      "muscle": "cardio",
+      "muscles": [
+        "legs",
+        "shoulders",
+        "cardio"
+      ]
     },
     "running": {
       "name": "Course à pied",
       "category": "cardio",
-      "muscle": "cardio"
+      "muscle": "cardio",
+      "muscles": [
+        "legs",
+        "calves",
+        "cardio"
+      ]
     },
     "stairs": {
       "name": "Montée d’escaliers",
       "category": "cardio",
-      "muscle": "legs"
+      "muscle": "legs",
+      "muscles": [
+        "legs",
+        "glutes",
+        "calves"
+      ]
     },
     "swimming": {
       "name": "Natation",
@@ -233,7 +370,12 @@
     "mountain-climbers": {
       "name": "Mountain climbers",
       "category": "cardio",
-      "muscle": "core"
+      "muscle": "core",
+      "muscles": [
+        "core",
+        "shoulders",
+        "legs"
+      ]
     }
   }
 }
