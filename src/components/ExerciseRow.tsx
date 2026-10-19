@@ -6,6 +6,8 @@ import { DateKey, Exercise, logKey } from '../domain/types';
 import { useApp } from '../store/AppContext';
 import { useTheme } from './ThemeContext';
 
+const categoryIcon = (c: string) => ({ strength: '💪', cardio: '🏃', stretching: '🧘', mobility: '🤸' } as Record<string, string>)[c] ?? '🏋️';
+
 const reasonIcon = (r: string) => (r.startsWith('Objectif') ? '🎯' : r === 'Jamais fait' ? '🆕' : r.startsWith('Pas fait') ? '⏳' : '💡');
 
 export function ExerciseLogRow({ exercise, date, reasons, tileWidth }: { exercise: Exercise; date: DateKey; reasons?: string[]; tileWidth: number }) {
@@ -30,6 +32,8 @@ export function ExerciseLogRow({ exercise, date, reasons, tileWidth }: { exercis
         padding: 8,
         backgroundColor: done ? colors.successLight : colors.card,
         borderColor: done ? colors.success : colors.border,
+        borderWidth: done ? 2 : 1,
+        opacity: done ? 0.85 : 1,
         justifyContent: 'space-between',
       }}
     >
@@ -43,9 +47,9 @@ export function ExerciseLogRow({ exercise, date, reasons, tileWidth }: { exercis
         onPress={() => toggleDone(exercise.id, date)}
         style={{ alignItems: 'center' }}
       >
-        <Text style={{ fontSize: 30 }}>{done ? '✅' : '⬜'}</Text>
+        <Text style={{ fontSize: 30 }}>{categoryIcon(exercise.category)}</Text>
       </Pressable>
-      <Text numberOfLines={1} style={{ fontSize: 11, color: done ? colors.success : colors.muted, textAlign: 'center' }}>
+      <Text numberOfLines={1} style={{ fontSize: done ? 12 : 16, color: done ? colors.success : colors.muted, textAlign: 'center' }}>
         {done ? details || ' ' : [status, icons].filter(Boolean).join(' ') || ' '}
       </Text>
     </View>
