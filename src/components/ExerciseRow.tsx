@@ -8,7 +8,7 @@ import { LogForm } from './LogForm';
 import { Button, Card, row, Tag } from './ui';
 import { useTheme } from './ThemeContext';
 
-export function ExerciseLogRow({ exercise, date, reasons }: { exercise: Exercise; date: DateKey; reasons?: string[] }) {
+export function ExerciseLogRow({ exercise, date, reasons, tileWidth }: { exercise: Exercise; date: DateKey; reasons?: string[]; tileWidth?: number }) {
   const { state, toggleDone, setLog } = useApp();
   const { colors } = useTheme();
   const [open, setOpen] = useState(false);
@@ -21,9 +21,14 @@ export function ExerciseLogRow({ exercise, date, reasons }: { exercise: Exercise
     .join(' · ');
 
   return (
-    <Card style={done ? { backgroundColor: colors.successLight, borderColor: colors.success } : undefined}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
-        <View style={{ flex: 1 }}>
+    <Card
+      style={{
+        ...(done ? { backgroundColor: colors.successLight, borderColor: colors.success } : {}),
+        ...(tileWidth ? { width: tileWidth, aspectRatio: open ? undefined : 1, padding: 12 } : {}),
+      }}
+    >
+      <View style={tileWidth ? { flex: 1, gap: 6 } : { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+        <View style={tileWidth ? undefined : { flex: 1 }}>
           <Link href={{ pathname: '/exercise/[id]', params: { id: exercise.id } }} style={{ fontSize: 15, fontWeight: '600', color: colors.text }}>
             {exercise.name}
           </Link>
@@ -38,7 +43,7 @@ export function ExerciseLogRow({ exercise, date, reasons }: { exercise: Exercise
           {done && !!details && <Text style={{ color: colors.muted, marginTop: 4 }}>{details}</Text>}
           {!!entry?.note && <Text style={{ color: colors.muted, marginTop: 2, fontStyle: 'italic' }}>« {entry.note} »</Text>}
         </View>
-        <View style={{ gap: 4, flexDirection: 'row', alignItems: 'center' }}>
+        <View style={tileWidth ? { gap: 4, alignItems: 'stretch' } : { gap: 4, flexDirection: 'row', alignItems: 'center' }}>
           <Button
             testID={`toggle-${exercise.id}`}
             label={done ? '✓ Fait' : 'Fait'}
