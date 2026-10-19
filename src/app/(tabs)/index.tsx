@@ -1,6 +1,6 @@
 import { Link, router, useLocalSearchParams } from 'expo-router';
 import React, { useMemo } from 'react';
-import { Text, View } from 'react-native';
+import { Text, useWindowDimensions, View } from 'react-native';
 import { ExerciseLogRow } from '../../components/ExerciseRow';
 import { Button, Card, EmptyState, Muted, Screen, Tag, Title, row } from '../../components/ui';
 import { useTheme } from '../../components/ThemeContext';
@@ -13,7 +13,10 @@ import { useApp } from '../../store/AppContext';
 export default function TodayScreen() {
   const { state, ready, addExercise } = useApp();
   const { colors } = useTheme();
+  const { width } = useWindowDimensions();
   const params = useLocalSearchParams<{ date?: string }>();
+  const phoneWidth = width <= 600;
+  const tileWidth = (Math.min(width, 760) - 32 - 12) / 2;
   const today = todayKey();
   const date = isDateKey(params.date) && params.date <= today ? params.date : today;
   const setDate = (d: string) => {
@@ -60,12 +63,26 @@ export default function TodayScreen() {
           {recs.length === 0 ? (
             <Card><Text style={{ color: colors.success, fontWeight: '600' }}>🎉 Tout est fait pour ce jour, bravo !</Text></Card>
           ) : (
-            recs.map((r) => <ExerciseLogRow key={r.exercise.id} exercise={r.exercise} date={date} reasons={r.reasons} />)
+            <View style={phoneWidth ? { flexDirection: 'row', flexWrap: 'wrap', gap: 12 } : undefined}>
+              {recs.map((r) => (
+                <ExerciseLogRow
+                  key={r.exercise.id}
+                  exercise={r.exercise}
+                  date={date}
+                  reasons={r.reasons}
+                  tileWidth={phoneWidth ? tileWidth : undefined}
+                />
+              ))}
+            </View>
           )}
           {others.length > 0 && (
             <>
               <Title>Autres exercices</Title>
-              {others.map((e) => <ExerciseLogRow key={e.id} exercise={e} date={date} />)}
+              <View style={phoneWidth ? { flexDirection: 'row', flexWrap: 'wrap', gap: 12 } : undefined}>
+                {others.map((e) => (
+                  <ExerciseLogRow key={e.id} exercise={e} date={date} tileWidth={phoneWidth ? tileWidth : undefined} />
+                ))}
+              </View>
             </>
           )}
         </>
