@@ -147,7 +147,7 @@ export const row: ViewStyle = { flexDirection: 'row', flexWrap: 'wrap', gap: 8, 
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.bg },
-  screenContent: { paddingHorizontal: 16, paddingTop: 16, paddingBottom: 32 },
+  screenContent: { paddingHorizontal: 16, paddingTop: 16, paddingBottom: 16, flexGrow: 1 },
   inner: { width: '100%', maxWidth: 760, alignSelf: 'center', gap: 12 },
   card: { borderRadius: 18, padding: 16, borderWidth: 1 },
   title: { fontSize: 18, fontWeight: '700', color: colors.text },
