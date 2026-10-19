@@ -53,9 +53,9 @@ export function Button({
   disabled?: boolean;
   testID?: string;
 }) {
-  const { colors } = useTheme();
+  const { colors, mode } = useTheme();
   const bg = { primary: colors.primary, secondary: colors.primaryLight, danger: colors.danger, success: colors.success }[kind];
-  const fg = kind === 'secondary' ? colors.primary : '#fff';
+  const fg = kind === 'secondary' ? colors.primary : mode === 'dark' ? '#10151C' : '#fff';
   return (
     <Pressable
       testID={testID}

@@ -18,7 +18,7 @@ function intensity(n: number, colors: ReturnType<typeof useTheme>['colors']): st
 
 export default function HistoryScreen() {
   const { state } = useApp();
-  const { colors } = useTheme();
+  const { colors, mode } = useTheme();
   const today = todayKey();
   const [month, setMonth] = useState(startOfMonth(today));
   const [selected, setSelected] = useState<string | null>(null);
@@ -78,7 +78,7 @@ export default function HistoryScreen() {
                   onPress={() => setSelected(d)}
                   style={{ aspectRatio: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: intensity(byDate[d], colors), borderWidth: d === today ? 2 : selected === d ? 2 : 0, borderColor: colors.primary, opacity: d > today ? 0.4 : 1 }}
                 >
-                  <Text style={{ color: byDate[d] > 1 ? '#fff' : colors.text, fontSize: 12 }}>{Number(d.slice(8))}</Text>
+                  <Text style={{ color: byDate[d] > 1 ? (mode === 'dark' ? '#10151C' : '#fff') : colors.text, fontSize: 12 }}>{Number(d.slice(8))}</Text>
                 </Pressable>
               )}
             </View>
