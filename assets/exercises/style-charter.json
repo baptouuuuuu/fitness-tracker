@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "output": { "format": "gif", "sizePx": 320, "durationSec": 3, "fps": 12, "loop": true, "maxKB": 400 },
+  "palette": { "background": "#F4F6FA", "figure": "#1B2430", "activeMuscle": "#2F6BFF", "accent": "#1FA463", "equipment": "#6B7686" },
+  "stylePrompt": "Minimalist flat vector illustration, single athletic neutral figure shown in side or front view, solid dark navy (#1B2430) body, targeted muscles highlighted in bright blue (#2F6BFF), plain light grey (#F4F6FA) background, no text, no logo, no shadows, thick rounded outlines, smooth seamless loop of one repetition, fixed camera, centered square 320x320 framing.",
+  "negativePrompt": "photo-realistic, text, watermark, multiple people, busy background, gradients, 3D render, camera movement",
+  "promptTemplate": "{stylePrompt} Exercise: {name} (category: {category}). Targeted muscle group: {muscleGroup}. Show one clean repetition with correct form. Negative: {negativePrompt}",
+  "seedPolicy": "Use the same fixed seed and reference image (the first generated gif) for every generation call to keep the character consistent."
+}

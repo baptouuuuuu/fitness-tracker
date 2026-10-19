@@ -78,3 +78,10 @@ Les égalités sont départagées par nom (résultat déterministe). Les deux ra
 
 Le workflow `.github/workflows/deploy-web.yml` construit et publie la version web à chaque push sur `main` (ou manuellement via *Actions → Deploy web → Run workflow*).
 Activation unique : **Settings → Pages → Source : GitHub Actions**. L'app est ensuite disponible sur `https://baptouuuuuu.github.io/fitness-tracker/`.
+
+## Démos d'exercices (GIF)
+
+- `assets/exercises/catalog.json` : exercices connus → groupe musculaire.
+- `assets/exercises/style-charter.json` : charte graphique unique (palette, format, prompt de style, seed) à réutiliser dans **tous** les appels de génération.
+- Sans GIF, l'app affiche l'image du groupe musculaire (`assets/exercises/muscles/`, régénérable via `node scripts/exercise-media.js muscles`).
+- Générer les GIF manquants : `npm run media:missing` produit `missing-prompts.json` (prompt = charte + exercice). Placer ensuite `<id>.gif` dans `assets/exercises/gifs/` puis `npm run media:sync`.
