@@ -1,10 +1,12 @@
 import { Link, router, useLocalSearchParams } from 'expo-router';
 import React, { useMemo } from 'react';
 import { Text, useWindowDimensions, View } from 'react-native';
+import { BodyFigure } from '../../components/BodyFigure';
 import { ExerciseLogRow } from '../../components/ExerciseRow';
 import { Button, Card, EmptyState, Muted, Screen, Tag, Title, row } from '../../components/ui';
 import { useTheme } from '../../components/ThemeContext';
 import { addDays, isDateKey, longDateLabel, todayKey } from '../../domain/dates';
+import { musclesForExercise } from '../../domain/media';
 import { recommend, suggestExtras } from '../../domain/recommendations';
 import { computeStreaks, doneDates } from '../../domain/stats';
 import { categoryLabel } from '../../domain/templates';
@@ -15,8 +17,8 @@ export default function TodayScreen() {
   const { colors } = useTheme();
   const { width } = useWindowDimensions();
   const params = useLocalSearchParams<{ date?: string }>();
-  const phoneWidth = width <= 600;
-  const tileWidth = (Math.min(width, 760) - 32 - 12) / 2;
+  const GAP = 8;
+  const tileWidth = Math.floor((Math.min(width, 760) - 32 - GAP * 2) / 3);
   const today = todayKey();
   const date = isDateKey(params.date) && params.date <= today ? params.date : today;
   const setDate = (d: string) => {
@@ -30,6 +32,9 @@ export default function TodayScreen() {
   const others = active.filter((e) => !recIds.has(e.id));
   const doneCount = active.filter((e) => state.logs[`${date}|${e.id}`]?.done).length;
   const streak = computeStreaks(doneDates(state), today).current;
+
+  const doneMuscles = active.filter((e) => state.logs[`${date}|${e.id}`]?.done).flatMap((e) => musclesForExercise(e));
+  const grid = { flexDirection: 'row' as const, flexWrap: 'wrap' as const, gap: GAP };
 
   if (!ready) return <Screen><Muted>Chargement…</Muted></Screen>;
 
@@ -45,9 +50,14 @@ export default function TodayScreen() {
           <Button label="▶" kind="secondary" disabled={date >= today} onPress={() => setDate(addDays(date, 1))} />
         </View>
         <View style={[row, { justifyContent: 'center', marginTop: 6 }]}>
-          <Text style={{ color: colors.text }}>✅ {doneCount}/{active.length} fait(s)</Text>
-          <Text style={{ color: colors.text }}>🔥 Série : {streak} jour(s)</Text>
+          <Text style={{ color: colors.text }}>✅ {doneCount}/{active.length}</Text>
+          <Text style={{ color: colors.text }}>🔥 {streak}</Text>
         </View>
+        {doneMuscles.length > 0 && (
+          <View style={{ marginTop: 8 }}>
+            <BodyFigure muscles={doneMuscles} height={110} testID="day-body" />
+          </View>
+        )}
       </Card>
 
       {active.length === 0 ? (
@@ -58,29 +68,22 @@ export default function TodayScreen() {
         />
       ) : (
         <>
-          <Title>Conseillés aujourd'hui</Title>
-          <Muted>Pas besoin de tout faire : privilégiez ceux que vous avez le moins faits récemment.</Muted>
+          <Title>💡 Conseillés</Title>
           {recs.length === 0 ? (
             <Card><Text style={{ color: colors.success, fontWeight: '600' }}>🎉 Tout est fait pour ce jour, bravo !</Text></Card>
           ) : (
-            <View style={phoneWidth ? { flexDirection: 'row', flexWrap: 'wrap', gap: 12 } : undefined}>
+            <View style={grid}>
               {recs.map((r) => (
-                <ExerciseLogRow
-                  key={r.exercise.id}
-                  exercise={r.exercise}
-                  date={date}
-                  reasons={r.reasons}
-                  tileWidth={phoneWidth ? tileWidth : undefined}
-                />
+                <ExerciseLogRow key={r.exercise.id} exercise={r.exercise} date={date} reasons={r.reasons} tileWidth={tileWidth} />
               ))}
             </View>
           )}
           {others.length > 0 && (
             <>
-              <Title>Autres exercices</Title>
-              <View style={phoneWidth ? { flexDirection: 'row', flexWrap: 'wrap', gap: 12 } : undefined}>
+              <Title>📋 Autres</Title>
+              <View style={grid}>
                 {others.map((e) => (
-                  <ExerciseLogRow key={e.id} exercise={e} date={date} tileWidth={phoneWidth ? tileWidth : undefined} />
+                  <ExerciseLogRow key={e.id} exercise={e} date={date} tileWidth={tileWidth} />
                 ))}
               </View>
             </>
@@ -90,7 +93,7 @@ export default function TodayScreen() {
 
       {extras.length > 0 && (
         <>
-          <Title>Pour compléter l'entraînement</Title>
+          <Title>➕ Compléter</Title>
           {extras.map((t) => (
             <Card key={t.id}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
@@ -98,7 +101,7 @@ export default function TodayScreen() {
                   <Text style={{ fontSize: 15, fontWeight: '600', color: colors.text }}>{t.name}</Text>
                   <View style={[row, { marginTop: 4 }]}><Tag label={categoryLabel(t.category)} /></View>
                 </View>
-                <Button label="+ Ajouter" kind="secondary" onPress={() => addExercise({ name: t.name, category: t.category })} />
+                <Button label="+" kind="secondary" onPress={() => addExercise({ name: t.name, category: t.category })} />
               </View>
             </Card>
           ))}

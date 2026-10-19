@@ -25,12 +25,11 @@ describe('UI smoke test', () => {
     await fireEvent.changeText(screen.getByTestId('exercise-name'), 'Squats');
     await fireEvent.press(screen.getByTestId('exercise-submit'));
 
-    await waitFor(() => expect(screen.getByText("Conseillés aujourd'hui")).toBeTruthy());
-    expect(screen.getByText('Jamais fait')).toBeTruthy();
-    expect(screen.getByText('✅ 0/1 fait(s)')).toBeTruthy();
+    await waitFor(() => expect(screen.getByText('💡 Conseillés')).toBeTruthy());
+    expect(screen.getByText('✅ 0/1')).toBeTruthy();
 
-    await fireEvent.press(screen.getAllByText('Fait')[0]);
-    await waitFor(() => expect(screen.getByText('✅ 1/1 fait(s)')).toBeTruthy());
+    await fireEvent.press(screen.getAllByTestId(/^toggle-/)[0]);
+    await waitFor(() => expect(screen.getByText('✅ 1/1')).toBeTruthy());
     expect(screen.getByText(/Tout est fait/)).toBeTruthy();
   });
 });

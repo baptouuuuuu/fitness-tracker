@@ -17,19 +17,19 @@ export function LogForm({ entry, onSave, onCancel }: { entry?: LogEntry; onSave:
     <View style={{ marginTop: 6 }}>
       <View style={row}>
         <View style={{ flex: 1, minWidth: 90 }}>
-          <Field label="Durée (min)" keyboardType="numeric" value={duration} onChangeText={setDuration} placeholder="10" />
+          <Field label="⏱️ min" keyboardType="numeric" value={duration} onChangeText={setDuration} placeholder="10" />
         </View>
         <View style={{ flex: 1, minWidth: 90 }}>
-          <Field label="Séries" keyboardType="numeric" value={sets} onChangeText={setSets} placeholder="3" />
+          <Field label="🔁 Séries" keyboardType="numeric" value={sets} onChangeText={setSets} placeholder="3" />
         </View>
         <View style={{ flex: 1, minWidth: 90 }}>
-          <Field label="Répétitions" keyboardType="numeric" value={reps} onChangeText={setReps} placeholder="12" />
+          <Field label="💪 Reps" keyboardType="numeric" value={reps} onChangeText={setReps} placeholder="12" />
         </View>
       </View>
-      <Field label="Commentaire" value={note} onChangeText={setNote} placeholder="Ressenti, charge, remarque…" />
+      <Field label="📝 Note" value={note} onChangeText={setNote} placeholder="Ressenti, charge, remarque…" />
       <View style={row}>
         <Button
-          label="Enregistrer (fait)"
+          label="💾 Enregistrer"
           kind="success"
           onPress={() => onSave({ done: true, note, durationMin: toNum(duration), sets: toNum(sets), reps: toNum(reps) })}
         />
