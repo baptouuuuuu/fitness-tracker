@@ -1,6 +1,7 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import { Text } from 'react-native';
+import { ExerciseMedia } from '../../components/ExerciseMedia';
 import { Bars, Card, EmptyState, Muted, Screen, Tag, Title, colors, row } from '../../components/ui';
 import { diffDays, todayKey } from '../../domain/dates';
 import { categoryLabel } from '../../domain/templates';
@@ -32,6 +33,7 @@ export default function ExerciseDetail() {
       <Stack.Screen options={{ title: exercise.name }} />
       <Card>
         <Title>{exercise.name}</Title>
+        <ExerciseMedia exercise={exercise} />
         <View style={[row, { marginTop: 6 }]}>
           <Tag label={categoryLabel(exercise.category)} />
           {objectives.map((o) => <Tag key={o.id} label={`🎯 ${o.name}`} />)}
