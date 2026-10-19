@@ -1,22 +1,24 @@
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { Bars, Button, Card, EmptyState, Muted, Screen, Title, colors, row } from '../../components/ui';
+import { Bars, Button, Card, EmptyState, Muted, Screen, Title, row } from '../../components/ui';
+import { useTheme } from '../../components/ThemeContext';
 import { addDays, addMonths, daysInMonth, longDateLabel, monthLabel, startOfMonth, todayKey } from '../../domain/dates';
 import { completionsByDate, computeStreaks, doneDates, periodStats, weeklySeries } from '../../domain/stats';
 import { useApp } from '../../store/AppContext';
 
 const pct = (n: number) => `${Math.round(n * 100)}%`;
 
-function intensity(n: number): string {
-  if (n === 0) return '#EEF1F6';
-  if (n === 1) return '#BFE8D1';
-  if (n === 2) return '#7DD3A5';
+function intensity(n: number, colors: ReturnType<typeof useTheme>['colors']): string {
+  if (n === 0) return colors.bg;
+  if (n === 1) return colors.successLight;
+  if (n === 2) return colors.success;
   return colors.success;
 }
 
 export default function HistoryScreen() {
   const { state } = useApp();
+  const { colors } = useTheme();
   const today = todayKey();
   const [month, setMonth] = useState(startOfMonth(today));
   const [selected, setSelected] = useState<string | null>(null);
@@ -74,9 +76,9 @@ export default function HistoryScreen() {
                 <Pressable
                   accessibilityRole="button"
                   onPress={() => setSelected(d)}
-                  style={{ aspectRatio: 1, borderRadius: 8, alignItems: 'center', justifyContent: 'center', backgroundColor: intensity(byDate[d]), borderWidth: d === today ? 2 : selected === d ? 2 : 0, borderColor: colors.primary, opacity: d > today ? 0.4 : 1 }}
+                  style={{ aspectRatio: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: intensity(byDate[d], colors), borderWidth: d === today ? 2 : selected === d ? 2 : 0, borderColor: colors.primary, opacity: d > today ? 0.4 : 1 }}
                 >
-                  <Text style={{ color: byDate[d] > 2 ? '#fff' : colors.text, fontSize: 12 }}>{Number(d.slice(8))}</Text>
+                  <Text style={{ color: byDate[d] > 1 ? '#fff' : colors.text, fontSize: 12 }}>{Number(d.slice(8))}</Text>
                 </Pressable>
               )}
             </View>

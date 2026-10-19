@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
-import { Button, Card, Chip, EmptyState, Field, Muted, Screen, Tag, Title, colors, row } from '../../components/ui';
+import { Button, Card, Chip, EmptyState, Field, Muted, Screen, Tag, Title, row } from '../../components/ui';
+import { useTheme } from '../../components/ThemeContext';
 import { OBJECTIVE_TEMPLATES } from '../../domain/templates';
 import { Objective } from '../../domain/types';
 import { useApp } from '../../store/AppContext';
@@ -9,6 +10,7 @@ const WEIGHT_LABELS = { 1: 'Faible', 2: 'Moyenne', 3: 'Haute' } as const;
 
 function ObjectiveForm({ initial, onSubmit, onCancel, submitLabel }: { initial?: Objective; onSubmit: (name: string, weight: 1 | 2 | 3, ids: string[]) => void; onCancel?: () => void; submitLabel: string }) {
   const { state } = useApp();
+  const { colors } = useTheme();
   const [name, setName] = useState(initial?.name ?? '');
   const [weight, setWeight] = useState<1 | 2 | 3>(initial?.weight ?? 2);
   const [ids, setIds] = useState<string[]>(initial?.exerciseIds ?? []);
@@ -54,6 +56,7 @@ function ObjectiveForm({ initial, onSubmit, onCancel, submitLabel }: { initial?:
 
 function ObjectiveItem({ objective }: { objective: Objective }) {
   const { state, updateObjective, deleteObjective } = useApp();
+  const { colors } = useTheme();
   const [editing, setEditing] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const linked = state.exercises.filter((e) => objective.exerciseIds.includes(e.id));

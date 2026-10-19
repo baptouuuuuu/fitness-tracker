@@ -2,7 +2,8 @@ import { Stack, useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import { Text } from 'react-native';
 import { ExerciseMedia } from '../../components/ExerciseMedia';
-import { Bars, Card, EmptyState, Muted, Screen, Tag, Title, colors, row } from '../../components/ui';
+import { Bars, Card, EmptyState, Muted, Screen, Tag, Title, row } from '../../components/ui';
+import { useTheme } from '../../components/ThemeContext';
 import { diffDays, todayKey } from '../../domain/dates';
 import { categoryLabel } from '../../domain/templates';
 import { computeStreaks, doneDates, doneLogs, lastDoneDate, periodStats, weeklySeries } from '../../domain/stats';
@@ -13,6 +14,7 @@ import { View } from 'react-native';
 export default function ExerciseDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { state, ready } = useApp();
+  const { colors } = useTheme();
   const exercise = state.exercises.find((e) => e.id === id);
   const today = todayKey();
 

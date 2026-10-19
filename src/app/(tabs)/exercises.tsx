@@ -1,12 +1,14 @@
 import { Link } from 'expo-router';
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
-import { Button, Card, Chip, EmptyState, Field, Muted, Screen, Tag, Title, colors, row } from '../../components/ui';
+import { Button, Card, Chip, EmptyState, Field, Muted, Screen, Tag, Title, row } from '../../components/ui';
+import { useTheme } from '../../components/ThemeContext';
 import { CATEGORY_PRESETS, EXERCISE_TEMPLATES, categoryLabel } from '../../domain/templates';
 import { Exercise } from '../../domain/types';
 import { useApp } from '../../store/AppContext';
 
 function ExerciseForm({ initial, onSubmit, onCancel, submitLabel }: { initial?: Exercise; onSubmit: (name: string, category: string) => void; onCancel?: () => void; submitLabel: string }) {
+  const { colors } = useTheme();
   const [name, setName] = useState(initial?.name ?? '');
   const [category, setCategory] = useState(initial?.category ?? 'strength');
   return (
@@ -37,6 +39,7 @@ function ExerciseForm({ initial, onSubmit, onCancel, submitLabel }: { initial?: 
 
 function ExerciseItem({ exercise }: { exercise: Exercise }) {
   const { updateExercise, deleteExercise } = useApp();
+  const { colors } = useTheme();
   const [editing, setEditing] = useState(false);
   const [confirm, setConfirm] = useState(false);
   return (

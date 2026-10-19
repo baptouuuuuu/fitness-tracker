@@ -2,7 +2,8 @@ import { Link, router, useLocalSearchParams } from 'expo-router';
 import React, { useMemo } from 'react';
 import { Text, View } from 'react-native';
 import { ExerciseLogRow } from '../../components/ExerciseRow';
-import { Button, Card, EmptyState, Muted, Screen, Tag, Title, colors, row } from '../../components/ui';
+import { Button, Card, EmptyState, Muted, Screen, Tag, Title, row } from '../../components/ui';
+import { useTheme } from '../../components/ThemeContext';
 import { addDays, isDateKey, longDateLabel, todayKey } from '../../domain/dates';
 import { recommend, suggestExtras } from '../../domain/recommendations';
 import { computeStreaks, doneDates } from '../../domain/stats';
@@ -11,6 +12,7 @@ import { useApp } from '../../store/AppContext';
 
 export default function TodayScreen() {
   const { state, ready, addExercise } = useApp();
+  const { colors } = useTheme();
   const params = useLocalSearchParams<{ date?: string }>();
   const today = todayKey();
   const date = isDateKey(params.date) && params.date <= today ? params.date : today;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, Text, TextInput, View } from 'react-native';
-import { Button, Card, Muted, Screen, Title, colors, row } from '../../components/ui';
+import { Button, Card, Muted, Screen, Title, row } from '../../components/ui';
+import { useTheme } from '../../components/ThemeContext';
 import { AssistantCommand, requestAssistantCommand } from '../../domain/assistant';
 import { categoryLabel } from '../../domain/templates';
 import { useApp } from '../../store/AppContext';
@@ -15,6 +16,7 @@ const welcomeMessage =
 
 export default function AssistantScreen() {
   const { state, addExercise, addObjective } = useApp();
+  const { colors } = useTheme();
   const [messages, setMessages] = useState<ChatMessage[]>([{ role: 'assistant', text: welcomeMessage }]);
   const [input, setInput] = useState('');
   const [apiKey, setApiKey] = useState('');

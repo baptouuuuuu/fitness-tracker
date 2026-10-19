@@ -83,10 +83,10 @@ export function Chip({ label, selected, onPress }: { label: string; selected?: b
 }
 
 export function Tag({ label }: { label: string }) {
-  const { colors } = useTheme();
+  const { colors, mode } = useTheme();
   return (
     <View style={[styles.tag, { backgroundColor: colors.warn }]}>
-      <Text style={[styles.tagText, { color: colors.mode === 'dark' ? '#F5D58A' : '#7A5200' }]}>{label}</Text>
+      <Text style={[styles.tagText, { color: mode === 'dark' ? '#F5D58A' : '#7A5200' }]}>{label}</Text>
     </View>
   );
 }
@@ -125,6 +125,21 @@ export function Bars({ values, labels, max }: { values: number[]; labels: string
         </View>
       ))}
     </View>
+  );
+}
+
+export function ThemeToggle() {
+  const { mode, toggle } = useTheme();
+  return (
+    <Pressable
+      accessibilityRole="switch"
+      accessibilityLabel={`Passer au thème ${mode === 'dark' ? 'clair' : 'sombre'}`}
+      accessibilityState={{ checked: mode === 'dark' }}
+      onPress={toggle}
+      style={{ paddingHorizontal: 12, paddingVertical: 8 }}
+    >
+      <Text style={{ fontSize: 18 }}>{mode === 'dark' ? '☀️' : '🌙'}</Text>
+    </Pressable>
   );
 }
 
