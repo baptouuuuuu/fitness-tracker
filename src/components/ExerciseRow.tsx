@@ -28,7 +28,6 @@ export function ExerciseLogRow({ exercise, date, reasons, tileWidth }: { exercis
         width: tileWidth,
         height: tileWidth,
         borderRadius: 16,
-        borderWidth: 1,
         padding: 8,
         backgroundColor: done ? colors.successLight : colors.card,
         borderColor: done ? colors.success : colors.border,
