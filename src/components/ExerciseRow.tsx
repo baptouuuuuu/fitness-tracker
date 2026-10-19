@@ -5,10 +5,12 @@ import { lastDoneLabel } from '../domain/recommendations';
 import { DateKey, Exercise, logKey } from '../domain/types';
 import { useApp } from '../store/AppContext';
 import { LogForm } from './LogForm';
-import { Button, Card, colors, row, Tag } from './ui';
+import { Button, Card, row, Tag } from './ui';
+import { useTheme } from './ThemeContext';
 
 export function ExerciseLogRow({ exercise, date, reasons }: { exercise: Exercise; date: DateKey; reasons?: string[] }) {
   const { state, toggleDone, setLog } = useApp();
+  const { colors } = useTheme();
   const [open, setOpen] = useState(false);
   const entry = state.logs[logKey(exercise.id, date)];
   const done = entry?.done === true;

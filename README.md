@@ -9,6 +9,7 @@ Application de suivi de régularité sportive (musculation, étirements, mobilit
 - **Suivi quotidien** : fait / pas fait par jour, avec commentaire, durée, séries et répétitions. Navigation vers les jours passés.
 - **Recommandations** : l'écran « Aujourd'hui » affiche les 5 exercices les plus utiles avec la raison.
 - **Statistiques** : régularité hebdomadaire et mensuelle, séries (streaks), calendrier, progression par exercice.
+- **Thème** : interface claire ou sombre, avec suivi du thème système et préférence mémorisée.
 - **Assistant IA** : Mammouth AI peut proposer des exercices et objectifs à partir d'une phrase, avec confirmation avant création.
 - **Hors-ligne** : les données de suivi sont stockées localement. L'assistant IA est facultatif et nécessite une connexion.
 
