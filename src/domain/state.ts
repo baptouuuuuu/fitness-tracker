@@ -10,6 +10,7 @@ export function newId(prefix: string): string {
 export interface ExerciseInput {
   name: string;
   category: string;
+  datasetId?: string;
 }
 
 export interface ObjectiveInput {
@@ -32,11 +33,14 @@ const sameName = (a: string, b: string) => clean(a).toLowerCase() === clean(b).t
 export function addExercise(state: AppState, input: ExerciseInput, today: DateKey, id = newId('ex')): AppState {
   const name = clean(input.name);
   if (!name) return state;
-  const existing = state.exercises.find((e) => sameName(e.name, name));
+  const existing = state.exercises.find((e) => input.datasetId && e.datasetId === input.datasetId)
+    ?? state.exercises.find((e) => sameName(e.name, name));
   if (existing) {
-    return existing.archived ? updateExercise(state, existing.id, { archived: false }) : state;
+    const datasetId = existing.datasetId ?? input.datasetId;
+    return existing.archived || datasetId !== existing.datasetId
+      ? updateExercise(state, existing.id, { archived: false, datasetId }) : state;
   }
-  const exercise: Exercise = { id, name, category: clean(input.category) || 'other', archived: false, createdAt: today };
+  const exercise: Exercise = { id, name, category: clean(input.category) || 'other', ...(input.datasetId ? { datasetId: input.datasetId } : {}), archived: false, createdAt: today };
   return { ...state, exercises: [...state.exercises, exercise] };
 }
 
@@ -47,7 +51,7 @@ export function updateExercise(state: AppState, id: string, patch: Partial<Exerc
       if (e.id !== id) return e;
       const name = patch.name !== undefined ? clean(patch.name) || e.name : e.name;
       const category = patch.category !== undefined ? clean(patch.category) || e.category : e.category;
-      return { ...e, name, category, archived: patch.archived ?? e.archived };
+      return { ...e, name, category, ...(patch.datasetId ? { datasetId: patch.datasetId } : {}), archived: patch.archived ?? e.archived };
     }),
   };
 }

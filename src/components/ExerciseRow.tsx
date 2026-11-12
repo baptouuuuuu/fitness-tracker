@@ -1,10 +1,12 @@
 import { Link } from 'expo-router';
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { Image } from 'react-native';
 import { lastDoneLabel } from '../domain/recommendations';
 import { DateKey, Exercise, logKey } from '../domain/types';
 import { useApp } from '../store/AppContext';
 import { useTheme } from './ThemeContext';
+import { freeExerciseImage } from '../domain/freeExerciseMedia';
 
 const categoryIcon = (c: string) => ({ strength: '💪', cardio: '🏃', stretching: '🧘', mobility: '🤸' } as Record<string, string>)[c] ?? '🏋️';
 
@@ -18,6 +20,7 @@ export function ExerciseLogRow({ exercise, date, reasons, tileWidth }: { exercis
   const since = lastDoneLabel(state, exercise.id, date);
   const status = since.days === null ? '🆕' : since.days === 0 ? '' : `🕒 ${since.days}j`;
   const icons = [...new Set((reasons ?? []).map(reasonIcon))].join(' ');
+  const photo = freeExerciseImage(exercise.datasetId);
   const details = [entry?.durationMin && `${entry.durationMin}′`, entry?.sets && entry?.reps ? `${entry.sets}×${entry.reps}` : entry?.sets ? `${entry.sets}s` : entry?.reps ? `${entry.reps}r` : '']
     .filter(Boolean)
     .join(' ');
@@ -46,7 +49,16 @@ export function ExerciseLogRow({ exercise, date, reasons, tileWidth }: { exercis
         onPress={() => toggleDone(exercise.id, date)}
         style={{ alignItems: 'center' }}
       >
-        <Text style={{ fontSize: 30 }}>{categoryIcon(exercise.category)}</Text>
+        {photo ? (
+          <Image
+            source={photo}
+            accessibilityLabel={`Photo : ${exercise.name}`}
+            style={{ width: Math.min(82, tileWidth * 0.55), height: Math.min(74, tileWidth * 0.5), borderRadius: 8 }}
+            resizeMode="contain"
+          />
+        ) : (
+          <Text style={{ fontSize: 30 }}>{categoryIcon(exercise.category)}</Text>
+        )}
       </Pressable>
       <Text numberOfLines={1} style={{ fontSize: done ? 12 : 16, color: done ? colors.success : colors.muted, textAlign: 'center' }}>
         {done ? details || ' ' : [status, icons].filter(Boolean).join(' ') || ' '}

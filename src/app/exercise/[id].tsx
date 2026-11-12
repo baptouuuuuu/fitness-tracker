@@ -11,11 +11,14 @@ import { computeStreaks, doneDates, doneLogs, lastDoneDate, periodStats, weeklyS
 import { scoreExercise } from '../../domain/recommendations';
 import { useApp } from '../../store/AppContext';
 import { View } from 'react-native';
+import { bodyLabels, datasetExercise, equipmentLabels } from '../../domain/dataset';
+import { logKey } from '../../domain/types';
 
 export default function ExerciseDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { state, ready, setLog } = useApp();
   const [editing, setEditing] = useState<string | null>(null);
+  const [loggingToday, setLoggingToday] = useState(false);
   const { colors } = useTheme();
   const exercise = state.exercises.find((e) => e.id === id);
   const today = todayKey();
@@ -31,6 +34,7 @@ export default function ExerciseDetail() {
   const rec = scoreExercise(state, exercise, today);
   const objectives = state.objectives.filter((o) => !o.archived && o.exerciseIds.includes(exercise.id));
   const totalMin = logs.reduce((s, l) => s + (l.durationMin ?? 0), 0);
+  const details = datasetExercise(exercise.datasetId);
 
   return (
     <Screen>
@@ -45,6 +49,34 @@ export default function ExerciseDetail() {
         <Muted>{last ? `Dernière fois : il y a ${diffDays(last, today)} jour(s)` : 'Jamais fait'}</Muted>
         <Muted>Priorité de recommandation : {rec.score}/100</Muted>
       </Card>
+      {details && (
+        <Card>
+          <Title>Comment réaliser cet exercice</Title>
+          <Muted>{bodyLabels[details.bodyPart] ?? details.bodyPart} · {equipmentLabels[details.equipment] ?? details.equipment}</Muted>
+          {details.steps.map((step, index) => (
+            <Text key={index} style={{ color: colors.text, marginTop: 8 }}>{index + 1}. {step}</Text>
+          ))}
+        </Card>
+      )}
+      {!exercise.archived && (
+        <Card>
+          <Title>Séance du jour</Title>
+          {loggingToday ? (
+            <LogForm
+              entry={state.logs[logKey(exercise.id, today)]}
+              onCancel={() => setLoggingToday(false)}
+              onSave={(input) => { setLog(exercise.id, today, input); setLoggingToday(false); }}
+            />
+          ) : (
+            <>
+              <Muted>{state.logs[logKey(exercise.id, today)]?.done ? 'Exercice enregistré aujourd’hui.' : 'Enregistrez votre séance en quelques secondes.'}</Muted>
+              <View style={{ marginTop: 8 }}>
+                <Button label={state.logs[logKey(exercise.id, today)]?.done ? 'Modifier la séance' : 'Enregistrer la séance'} onPress={() => setLoggingToday(true)} />
+              </View>
+            </>
+          )}
+        </Card>
+      )}
       <View style={row}>
         {[
           ['Total', `${logs.length}`],

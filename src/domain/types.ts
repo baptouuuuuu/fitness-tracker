@@ -4,6 +4,7 @@ export interface Exercise {
   id: string;
   name: string;
   category: string;
+  datasetId?: string;
   archived: boolean;
   createdAt: DateKey;
 }
