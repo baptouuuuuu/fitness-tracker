@@ -5,6 +5,7 @@ Application de suivi de régularité sportive (musculation, étirements, mobilit
 ## Fonctionnalités
 
 - **Exercices** : création / modification / archivage / suppression, catégories libres ou prédéfinies, modèles recommandés.
+- **Bibliothèque hors ligne** : 1 324 exercices, recherche par nom anglais, zone ou matériel, filtre poids du corps et instructions en français. Ajouter un exercice permet de le suivre et de retrouver ses instructions dans sa fiche.
 - **Objectifs** : nom libre ou suggestions, priorité (faible / moyenne / haute), liés à un ou plusieurs exercices.
 - **Suivi quotidien** : fait / pas fait par jour, avec commentaire, durée, séries et répétitions. Navigation vers les jours passés.
 - **Recommandations** : l'écran « Aujourd'hui » affiche les 5 exercices les plus utiles avec la raison.
@@ -82,6 +83,9 @@ Activation unique : **Settings → Pages → Source : GitHub Actions**. L'app es
 
 ## Démos d'exercices (GIF)
 
+- `assets/exercises/dataset.json` contient les noms, catégories, matériel et instructions françaises issus de [exercises-dataset](https://github.com/hasaneyldrm/exercises-dataset) (révision `7455efae41b330c265e7cd4b78dfa848e7ce5ebd`). Ces données sont sous licence MIT ; voir `assets/exercises/DATASET-LICENSE.txt`.
+- Les images et GIF Gym visual du dépôt source ne sont **pas** couverts par sa licence MIT et ne sont pas inclus ici : leur réutilisation nécessite une licence appropriée de Gym visual. Les illustrations musculaires restent utilisées comme solution de repli.
+- `assets/exercises/free-exercise-db/` contient les photos de démonstration de 134 correspondances exactes avec [Free Exercise DB](https://github.com/yuhonas/free-exercise-db) (révision `f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5`), déclaré domaine public sous Unlicense. Le reste du catalogue conserve ses illustrations musculaires. Voir `assets/exercises/free-exercise-db/LICENSE.md`.
 - `assets/exercises/catalog.json` : exercices connus → groupe musculaire.
 - `assets/exercises/style-charter.json` : charte graphique unique (palette, format, prompt de style, seed) à réutiliser dans **tous** les appels de génération.
 - Sans GIF, l'app affiche l'image du groupe musculaire (`assets/exercises/muscles/`, régénérable via `node scripts/exercise-media.js muscles`).

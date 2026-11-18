@@ -45,6 +45,7 @@ export function sanitize(data: any): AppState {
       id: e.id,
       name: e.name,
       category: typeof e.category === 'string' && e.category ? e.category : 'other',
+      ...(typeof e.datasetId === 'string' && e.datasetId ? { datasetId: e.datasetId } : {}),
       archived: e.archived === true,
       createdAt: isDateKey(e.createdAt) ? e.createdAt : '1970-01-01',
     }));

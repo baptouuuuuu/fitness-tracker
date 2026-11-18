@@ -69,6 +69,7 @@ export default function TodayScreen() {
       ) : (
         <>
           <Title>💡 Conseillés</Title>
+          <Muted>Touchez l'icône pour valider un exercice, ou son nom pour voir les détails.</Muted>
           {recs.length === 0 ? (
             <Card><Text style={{ color: colors.success, fontWeight: '600' }}>🎉 Tout est fait pour ce jour, bravo !</Text></Card>
           ) : (
